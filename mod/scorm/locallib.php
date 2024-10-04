@@ -557,17 +557,8 @@ function scorm_insert_track($userid, $scormid, $scoid, $attemptornumber, $elemen
         $track->id = $id;
     }
 
-    // Trigger updating grades based on a given set of SCORM CMI elements.
-    $scorm = false;
-    if (in_array($element, ['cmi.core.score.raw', 'cmi.score.raw']) ||
-        (in_array($element, ['cmi.completion_status', 'cmi.core.lesson_status', 'cmi.success_status'])
-         && in_array($value, ['completed', 'passed']))) {
-        $scorm = $DB->get_record('scorm', array('id' => $scormid));
-        include_once($CFG->dirroot.'/mod/scorm/lib.php');
-        scorm_update_grades($scorm, $userid);
-    }
-
     // Trigger CMI element events.
+    $scorm = false;
     if (in_array($element, ['cmi.core.score.raw', 'cmi.score.raw']) ||
         (in_array($element, ['cmi.completion_status', 'cmi.core.lesson_status', 'cmi.success_status'])
         && in_array($value, ['completed', 'failed', 'passed']))) {

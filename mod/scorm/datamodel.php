@@ -19,6 +19,7 @@ require_once($CFG->dirroot.'/mod/scorm/locallib.php');
 
 $id = optional_param('id', '', PARAM_INT);       // Course Module ID, or
 $a = optional_param('a', '', PARAM_INT);         // scorm ID
+$unloading = optional_param('unloading', '', PARAM_INT);
 $scoid = required_param('scoid', PARAM_INT);  // sco ID
 $attempt = required_param('attempt', PARAM_INT);  // attempt number.
 
@@ -53,6 +54,8 @@ require_login($course, false, $cm);
 if (confirm_sesskey() && (!empty($scoid))) {
     $result = true;
     $request = null;
+    $updategrade = false;
+    $incomplete = false;
     if (has_capability('mod/scorm:savetrack', context_module::instance($cm->id))) {
         // Preload all current tracking data.
         $sql = "SELECT e.element, v.value, v.timemodified, v.id as valueid
@@ -69,6 +72,15 @@ if (confirm_sesskey() && (!empty($scoid))) {
                 $netelement = preg_replace('/\.N(\d+)\./', "\.\$1\.", $element);
                 $result = scorm_insert_track($USER->id, $scorm->id, $scoid, $attemptobject, $element, $value,
                                              $scorm->forcecompleted, $trackdata) && $result;
+                if (!$incomplete && in_array($element, ['cmi.core.score.raw', 'cmi.score.raw']) ||
+                    (in_array($element, ['cmi.completion_status', 'cmi.core.lesson_status', 'cmi.success_status'])
+                    && in_array($value, ['completed', 'passed']))) {
+                    $updategrade = true;
+                } else if (in_array($element, ['cmi.completion_status', 'cmi.core.lesson_status', 'cmi.success_status'])
+                    && in_array($value, ['incomplete'])) {
+                    $updategrade = false;
+                    $incomplete = true;
+                }
             }
             if (substr($element, 0, 15) == 'adl.nav.request') {
                 // SCORM 2004 Sequencing Request.
@@ -93,6 +105,11 @@ if (confirm_sesskey() && (!empty($scoid))) {
                     }
                 }
             }
+        }
+        if ($updategrade) {
+            scorm_update_grades($scorm, $USER->id);
+        } else if ($unloading) {
+            scorm_update_grades($scorm, $USER->id);
         }
     }
     if ($result) {

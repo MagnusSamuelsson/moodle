@@ -232,6 +232,13 @@ class mod_scorm_mod_form extends moodleform_mod {
         $mform->addElement('selectyesno', 'lastattemptlock', get_string('lastattemptlock', 'scorm'));
         $mform->addHelpButton('lastattemptlock', 'lastattemptlock', 'scorm');
         $mform->setDefault('lastattemptlock', $cfgscorm->lastattemptlock);
+        $mform->hideIf('lastattemptlock', 'maxattempt', 'eq', 0);
+
+         // Fail after last attempt - Sets the completion status to failed when there is no more attempts.
+         $mform->addElement('selectyesno', 'failonlastattempt', get_string('failonlastattempt', 'scorm'));
+         $mform->addHelpButton('failonlastattempt', 'failonlastattempt', 'scorm');
+         $mform->setDefault('failonlastattempt', $cfgscorm->failonlastattempt);
+         $mform->hideIf('failonlastattempt', 'maxattempt', 'eq', 0);
 
         // Compatibility settings.
         $mform->addElement('header', 'compatibilitysettingshdr', get_string('compatibilitysettings', 'scorm'));
