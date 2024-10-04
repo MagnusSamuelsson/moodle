@@ -19,7 +19,7 @@ require_once($CFG->dirroot.'/mod/scorm/locallib.php');
 
 $id = optional_param('id', '', PARAM_INT);       // Course Module ID, or
 $a = optional_param('a', '', PARAM_INT);         // scorm ID
-$unloading = optional_param('unloading', '', PARAM_INT);
+$unloading = optional_param('unloading', 0, PARAM_INT);
 $scoid = required_param('scoid', PARAM_INT);  // sco ID
 $attempt = required_param('attempt', PARAM_INT);  // attempt number.
 
