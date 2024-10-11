@@ -192,6 +192,19 @@ function xmldb_scorm_upgrade($oldversion) {
     }
     // Automatically generated Moodle v4.4.0 release upgrade line.
     // Put any upgrade step following this.
+    if ($oldversion < 2024093000) {
 
+        // Define field failonlastattempt to be added to scorm.
+        $table = new xmldb_table('scorm');
+        $field = new xmldb_field('failonlastattempt', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'forcenewattempt');
+
+        // Conditionally launch add field failonlastattempt.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Scorm savepoint reached.
+        upgrade_mod_savepoint(true, 2024093000, 'scorm');
+    }
     return true;
 }
