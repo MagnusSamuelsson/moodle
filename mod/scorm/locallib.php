@@ -997,7 +997,8 @@ function scorm_print_launch($user, $scorm, $action, $cm) {
     $attemptcount = scorm_get_attempt_count($user->id, $scorm);
 
     // Do not give the player launch FORM if the SCORM object is locked after the final attempt.
-    if ($scorm->lastattemptlock == 0 || $result->attemptleft > 0) {
+    if (($incomplete && $scorm->forcenewattempt != 2) ||
+            ($scorm->lastattemptlock == 0 || $result->attemptleft > 0)) {
             echo html_writer::start_div('scorm-center');
             echo html_writer::start_tag('form', array('id' => 'scormviewform',
                                                         'method' => 'post',
