@@ -114,13 +114,13 @@ final class custom_completion_test extends advanced_testcase {
                 'completionstatusrequired', 6, [$completionincomplete], 2, COMPLETION_INCOMPLETE, null
             ],
             'Completion status Passed or Completed required, user has used all attempts, but not passed or completed' => [
-                'completionstatusrequired', 6, [$completionincomplete], 1, COMPLETION_COMPLETE_FAIL, null
+                'completionstatusrequired', 6, [$completionincomplete], 1, COMPLETION_INCOMPLETE, null
             ],
             'Completion status Passed required, user has used all attempts and completed, but not passed' => [
-                'completionstatusrequired', 2, [$completioncompleted], 1, COMPLETION_COMPLETE_FAIL, null
+                'completionstatusrequired', 2, [$completioncompleted], 1, COMPLETION_INCOMPLETE, null
             ],
             'Completion status Completed required, user has used all attempts, but not completed' => [
-                'completionstatusrequired', 4, [$completionincomplete], 1, COMPLETION_COMPLETE_FAIL, null
+                'completionstatusrequired', 4, [$completionincomplete], 1, COMPLETION_INCOMPLETE, null
             ],
             'Completion status Passed or Completed required, user has used all attempts, but not passed' => [
                 'completionstatusrequired', 6, [$completionincomplete, $completioncompleted], 2, COMPLETION_COMPLETE, null
@@ -132,7 +132,7 @@ final class custom_completion_test extends advanced_testcase {
                 'completionscorerequired', 80, [$completionscorefail], 0, COMPLETION_INCOMPLETE, null
             ],
             'Completion score required, user has used all attempts, but not reached the score' => [
-                'completionscorerequired', 80, [$completionscorefail], 1, COMPLETION_COMPLETE_FAIL, null
+                'completionscorerequired', 80, [$completionscorefail], 1, COMPLETION_INCOMPLETE, null
             ],
             'Completion score required, user score meets requirement' => [
                 'completionscorerequired', 80, [$completionscorepass], 0, COMPLETION_COMPLETE, null
@@ -144,7 +144,7 @@ final class custom_completion_test extends advanced_testcase {
                 'completionstatusallscos', 1, [$completionpassed, $completioncompleted], 2, COMPLETION_COMPLETE, null
             ],
             'Completion of all scos required, user has used all attempts, but not completed all scos' => [
-                'completionstatusallscos', 1, [$completionincomplete, $completioncompleted], 2, COMPLETION_COMPLETE_FAIL, null
+                'completionstatusallscos', 1, [$completionincomplete, $completioncompleted], 2, COMPLETION_INCOMPLETE, null
             ],
         ];
     }
