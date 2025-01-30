@@ -12,3 +12,6 @@
 .page-mycourses .block_myoverview .block-controls {
     display: none;
 }
+.myoverview-category-header {
+    margin-top: 1rem;
+}

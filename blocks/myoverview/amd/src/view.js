@@ -516,6 +516,29 @@ const renderCourses = (root, coursesData) => {
             course.showcoursecategory = filters.displaycategories === 'on';
             return course;
         });
+        if (filters.sort === 'category, fullname') {
+            currentTemplate += '-cat';
+            var categories = [];
+            coursesData.courses.forEach(course => {
+                let category = categories.find(cat => cat.name === course.coursecategory);
+                if (!category) {
+                    category = {
+                        name: course.coursecategory,
+                        courses: []
+                    };
+                    categories.push(category);
+                }
+                category.courses.push(course);
+            });
+            coursesData.categories = categories;
+            if (coursesData.categories.length) {
+                return Templates.render(currentTemplate, {
+                    categories: coursesData.categories
+                });
+            } else {
+                return noCoursesRender(root);
+            }
+        }
         if (coursesData.courses.length) {
             return Templates.render(currentTemplate, {
                 courses: coursesData.courses,

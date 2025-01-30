@@ -453,12 +453,12 @@ class main implements renderable, templatable {
         $preferences = $this->get_preferences_as_booleans();
         $availablelayouts = $this->get_formatted_available_layouts_for_export();
         $sort = '';
-        if ($this->sort == BLOCK_MYOVERVIEW_SORTING_SHORTNAME) {
-            $sort = 'shortname';
-        } else {
-            $sort = $this->sort == BLOCK_MYOVERVIEW_SORTING_TITLE ? 'fullname' : 'ul.timeaccess desc';
-        }
-
+        $sort = match ($this->sort) {
+            BLOCK_MYOVERVIEW_SORTING_SHORTNAME => 'shortname',
+            BLOCK_MYOVERVIEW_SORTING_TITLE => 'fullname',
+            BLOCK_MYOVERVIEW_SORTING_LASTACCESSED => 'ul.timeaccess desc',
+            BLOCK_MYOVERVIEW_SORTING_CATEGORY => 'category, fullname',
+        };
         $defaultvariables = [
             'totalcoursecount' => count(enrol_get_all_users_courses($USER->id, true)),
             'nocoursesimg' => $nocoursesurl,

@@ -83,6 +83,7 @@ $string['hidden'] = 'Courses removed from view';
 $string['hidecourse'] = 'Remove from view';
 $string['hiddencourses'] = 'Removed from view';
 $string['show'] = 'Restore to view';
+$string['sortbycategory'] = 'Sort by category';
 $string['sortbytitle'] = 'Sort by course name';
 $string['sortbylastaccessed'] = 'Sort by last accessed';
 $string['sortbyshortname'] = 'Sort by short name';

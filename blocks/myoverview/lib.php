@@ -46,6 +46,7 @@ define('BLOCK_MYOVERVIEW_CUSTOMFIELD_EMPTY', -1);
  * timeline
  */
 define('BLOCK_MYOVERVIEW_SORTING_TITLE', 'title');
+define('BLOCK_MYOVERVIEW_SORTING_CATEGORY', 'category');
 define('BLOCK_MYOVERVIEW_SORTING_LASTACCESSED', 'lastaccessed');
 define('BLOCK_MYOVERVIEW_SORTING_SHORTNAME', 'shortname');
 
@@ -110,7 +111,8 @@ function block_myoverview_user_preferences(): array {
         'choices' => array(
             BLOCK_MYOVERVIEW_SORTING_TITLE,
             BLOCK_MYOVERVIEW_SORTING_LASTACCESSED,
-            BLOCK_MYOVERVIEW_SORTING_SHORTNAME
+            BLOCK_MYOVERVIEW_SORTING_SHORTNAME,
+            BLOCK_MYOVERVIEW_SORTING_CATEGORY
         ),
         'permissioncallback' => [core_user::class, 'is_current_user'],
     );
