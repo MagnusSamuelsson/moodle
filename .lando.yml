@@ -1,0 +1,32 @@
+name: moodledev
+recipe: lamp
+config:
+  webroot: public
+  php: '8.4'
+  database: mariadb:11.4
+volumes:
+  moodledata: {}
+  moodledata_test: {}
+services:
+  appserver:
+    volumes:
+      - moodledata:/var/www/moodledata
+      - moodledata_test:/var/www/moodledata_test
+    build_as_root:
+      - a2enmod rewrite
+      - apt-get update
+      - apt-get install -y cron nano locales-all
+
+    run_as_root:
+      - echo "* * * * * www-data /usr/local/bin/php /app/admin/cli/cron.php >> /var/log/moodle-cron.log 2>&1" > /etc/cron.d/moodle
+      - echo "FallbackResource /r.php" > /app/public/.htaccess
+      - cp /app/.lando.config.php /app/config.php
+      - sed -i "s|{{MOODLE_URL}}|https://moodledev.lndo.site|g" /app/config.php
+      - chmod 0644 /etc/cron.d/moodle
+      - touch /var/log/moodle-cron.log
+      - chown www-data:www-data /var/log/moodle-cron.log
+      - chmod 664 /var/log/moodle-cron.log
+      - service cron start
+
+database:
+  portforward: 3306
