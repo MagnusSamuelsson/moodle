@@ -1798,7 +1798,7 @@ function scorm_format_toc_for_treeview($user, $scorm, $scoes, $usertracks, $cmid
 
     if (!$children) {
         $attemptsmade = scorm_get_attempt_count($user->id, $scorm);
-        $result->attemptleft = $scorm->maxattempt == 0 ? 1 : $scorm->maxattempt - $attemptsmade;
+        $result->attemptleft = $scorm->maxattempt == 0 ? 1 : max(0, $scorm->maxattempt - $attemptsmade);
     }
 
     if (!$children) {
